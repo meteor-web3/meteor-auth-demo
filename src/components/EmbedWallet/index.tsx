@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 
 import "@meteor-web3/meteor-iframe";
-import { CoinbaseWalletSDK } from "@coinbase/wallet-sdk";
+// import { CoinbaseWalletSDK } from "@coinbase/wallet-sdk";
 import { MessageTypes, message } from "@meteor-web3/components";
 import {
   Chain,
@@ -53,6 +53,8 @@ export const EmbedWallet = ({ walletConfig }: EmbedWalletProps) => {
 
   return (
     <PrivyProvider
+      // use your own appId to make sure connect successfully
+      // this test appId is only for localhost:3000
       appId='clpispdty00ycl80fpueukbhl'
       config={{
         loginMethods: ["google", "twitter", "github", "apple", "discord"],
@@ -101,7 +103,7 @@ export type ConnectRes = {
 
 export type SupportedWallet =
   | "google"
-  | (typeof WALLET)["METAMASK" | "COINBASE" | "WALLETCONNECT"];
+  | (typeof WALLET)["METAMASK" | "WALLETCONNECT"];
 
 export interface WalletListProps {
   walletConfig?: WalletConfig;
@@ -202,7 +204,10 @@ export const WalletList = ({
           if (!privyReady) {
             throw "Privy is not ready, please waiting...";
           }
-          if (!privyWallets[0]) {
+          const embededWallet = privyWallets.find(
+            wallet => wallet.walletClientType === "privy",
+          );
+          if (!embededWallet) {
             setWaitForPrivyConnecting(true);
             if (!privyAuthenticated) {
               privyLogin();
@@ -211,29 +216,30 @@ export const WalletList = ({
             }
             return;
           } else {
-            ethereumProvider = await privyWallets[0].getEthereumProvider();
+            ethereumProvider = await embededWallet.getEthereumProvider();
           }
         } else {
           switch (wallet) {
             case WALLET.METAMASK:
               ethereumProvider = window.ethereum;
               break;
-            case WALLET.COINBASE:
-              const chainId = 1;
-              const jsonRpcUrl = "https://mainnet.infura.io/v3";
-              const coinbaseWallet = new CoinbaseWalletSDK({
-                appName: "Meteor",
-                darkMode: false,
-              });
-              const coinbaseProvider = coinbaseWallet.makeWeb3Provider(
-                jsonRpcUrl,
-                chainId,
-              );
-              ethereumProvider = coinbaseProvider;
-              break;
+            // case WALLET.COINBASE:
+            //   const chainId = 1;
+            //   const jsonRpcUrl = "https://mainnet.infura.io/v3";
+            //   const coinbaseWallet = new CoinbaseWalletSDK({
+            //     appName: "Meteor",
+            //     darkMode: false,
+            //   });
+            //   const coinbaseProvider = coinbaseWallet.makeWeb3Provider(
+            //     jsonRpcUrl,
+            //     chainId,
+            //   );
+            //   ethereumProvider = coinbaseProvider;
+            //   break;
             case WALLET.WALLETCONNECT:
               const client = await EthereumProvider.init({
-                projectId: "de2a6e522f354b90448adfa7c76d9c05",
+                // use your own projectId to make sure connect successfully
+                projectId: "dbe97aca1139dd7037dc85d6988ba8f5",
                 showQrModal: false,
                 chains: [1],
                 optionalChains: [80001],
@@ -285,7 +291,10 @@ export const WalletList = ({
   };
 
   useEffect(() => {
-    if (privyWallets[0] && waitForPrivyConnecting) {
+    const embededWallet = privyWallets.find(
+      wallet => wallet.walletClientType === "privy",
+    );
+    if (embededWallet && waitForPrivyConnecting) {
       setWaitForPrivyConnecting(false);
       handleConnectWallet("google");
     }
@@ -296,7 +305,7 @@ export const WalletList = ({
       <Tooltip
         arrow
         placement='right'
-        title='Dataverse Snap is still in the testing phase, you need to disable Metamask stable and enable Metamask flask, and run the snap server locally by yourself before using it.'
+        title='Dataverse Snap is still in the testing phase, you need to use Metamask flask and run the snap server locally before using it.'
       >
         <div
           className='wallet-item'
@@ -330,7 +339,7 @@ export const WalletList = ({
       <Tooltip
         arrow
         placement='right'
-        title='This wallet will be embedded in an iframe and only support MetaMask as External-Wallet for now.'
+        title='This wallet will be embedded in an iframe and only support External-Wallet for now.'
       >
         <div
           className='wallet-item'
@@ -371,7 +380,7 @@ export const WalletList = ({
         />
         Metamask
       </div>
-      <div
+      {/* <div
         className='wallet-item'
         data-disabled={walletConfig?.enabled?.dataverseSnap === false}
         onClick={handleConnectWallet.bind(null, WALLET.COINBASE)}
@@ -381,7 +390,7 @@ export const WalletList = ({
           src='https://avatars.githubusercontent.com/u/1885080?s=200&v=4'
         />
         Coinbase Wallet
-      </div>
+      </div> */}
       {/* <div
         className='wallet-item'
         data-disabled={walletConfig?.enabled?.dataverseSnap === false}
@@ -438,7 +447,7 @@ export const WalletList = ({
           <div
             className='wallet-item'
             onClick={async () => {
-              if (privyWallets[0]) {
+              if (privyAuthenticated) {
                 await privyLogout();
               }
               setConnectedWallet(undefined);
