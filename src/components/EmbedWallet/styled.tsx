@@ -1,6 +1,7 @@
+import { motion } from "framer-motion";
 import styled from "styled-components";
 
-export const EmbedWalletContainer = styled.div`
+export const EmbedWalletContainer = styled(motion.div)`
   max-width: 360px;
   border-radius: 24px;
   background-color: #fff;
@@ -12,7 +13,6 @@ export const EmbedWalletContainer = styled.div`
   line-height: 20px;
   width: 100%;
   padding: 0px 16px;
-  transition: height 150ms ease-out 0s;
   overflow: hidden;
 
   .top-tip {
@@ -39,43 +39,6 @@ export const EmbedWalletContainer = styled.div`
       font-size: 40px;
       font-weight: 500;
       line-height: 24px;
-    }
-  }
-
-  .wallet-list {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-
-    .wallet-item {
-      width: 100%;
-      font-size: 14px;
-      line-height: 24px;
-      display: flex;
-      gap: 12px;
-      align-items: center;
-      padding: 12px 16px;
-      border-radius: 16px;
-      background-color: #fff;
-      transition: background-color 200ms ease 0s;
-      cursor: pointer;
-      border: 1px solid hsl(0, 0%, 92%);
-
-      &:hover {
-        background-color: hsl(0, 0%, 96%);
-      }
-
-      &[data-disabled="true"] {
-        display: none;
-      }
-
-      .wallet-logo {
-        height: 28px;
-        width: 28px;
-        font-size: 20px;
-        border-radius: 4px;
-      }
     }
   }
 
@@ -116,6 +79,43 @@ export const EmbedWalletContainer = styled.div`
       span {
         color: hsl(0, 0%, 57%);
       }
+    }
+  }
+`;
+
+export const WalletListContainer = styled(motion.div)`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  .wallet-item {
+    width: 100%;
+    font-size: 14px;
+    line-height: 24px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    padding: 12px 16px;
+    border-radius: 16px;
+    background-color: #fff;
+    transition: background-color 200ms ease 0s;
+    cursor: pointer;
+    border: 1px solid hsl(0, 0%, 92%);
+
+    &:hover {
+      background-color: hsl(0, 0%, 96%);
+    }
+
+    &[data-disabled="true"] {
+      display: none;
+    }
+
+    .wallet-logo {
+      height: 28px !important;
+      width: 28px !important;
+      font-size: 20px !important;
+      border-radius: 4px !important;
     }
   }
 `;

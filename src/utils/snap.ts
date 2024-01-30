@@ -1,9 +1,5 @@
-import {
-  SYSTEM_CALL,
-  RequestType,
-  ReturnType,
-} from "@dataverse/dataverse-connector";
 import { MetaMaskInpageProvider } from "@metamask/providers";
+import { SYSTEM_CALL, RequestType, ReturnType } from "@meteor-web3/connector";
 
 import { GetSnapsResponse, Snap } from "../types";
 

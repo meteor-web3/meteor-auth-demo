@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { CheckBox, Switch } from "@dataverse/dataverse-components";
+import { CheckBox, Switch } from "@meteor-web3/components";
 import LockIcon from "@mui/icons-material/Lock";
 import { Chip } from "@mui/material";
 
@@ -28,7 +28,13 @@ export default function Home() {
           <Chip label='Demo' variant='outlined' size='small' color='primary' />
         </div>
         <div className='learn-more'>
-          <a>Learn More →</a>
+          <a
+            href='https://github.com/meteor-web3'
+            target='_blank'
+            rel='noreferrer'
+          >
+            Learn More →
+          </a>
         </div>
       </HeaderContainer>
       <CardContainer>
@@ -39,16 +45,16 @@ export default function Home() {
               Authentication
             </div>
             <div className='config-item'>
-              <p className='config-item-title'>
+              <div className='config-item-title'>
                 <span>Wallets</span>
-                <div onClickCapture={e => e.stopPropagation()}>
+                <p onClickCapture={e => e.stopPropagation()}>
                   <Switch
                     style={{ cursor: "not-allowed" }}
                     controlChecked={true}
                     size='small'
                   />
-                </div>
-              </p>
+                </p>
+              </div>
               <GridContainer>
                 <CheckBox
                   className='card-check-box'
