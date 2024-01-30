@@ -62,7 +62,11 @@ export const EmbedWallet = ({ walletConfig }: EmbedWalletProps) => {
       }}
     >
       <EmbedWalletContainer layout transition={{ duration: 0.15 }}>
-        <p className='top-tip'>Choose a wallet to log in</p>
+        <p className='top-tip'>
+          {connectRes
+            ? "You have already logged in"
+            : "Choose a wallet to log in"}
+        </p>
         <div className='logo-container' style={{ marginBottom: "16px" }}>
           <img
             className='logo'
