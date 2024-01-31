@@ -243,8 +243,8 @@ export const WalletList = ({
             case WALLET.WALLETCONNECT:
               const client = await EthereumProvider.init({
                 // use your own projectId to make sure connect successfully
-                projectId: "dbe97aca1139dd7037dc85d6988ba8f5",
-                showQrModal: false,
+                projectId: "de2a6e522f354b90448adfa7c76d9c05",
+                showQrModal: true,
                 chains: [1],
                 optionalChains: [80001],
                 methods: [
