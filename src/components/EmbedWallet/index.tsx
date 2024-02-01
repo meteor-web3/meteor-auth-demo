@@ -335,7 +335,7 @@ export const WalletList = ({
         >
           <img
             className='wallet-logo'
-            src='https://avatars.githubusercontent.com/u/67382952?s=200&v=4'
+            src='https://avatars.githubusercontent.com/u/118692557?s=200&v=4'
           />
           Meteor Wallet
         </div>
