@@ -7,8 +7,8 @@ import { MessageTypes, message } from "@meteor-web3/components";
 import {
   Chain,
   Connector,
+  BaseProvider,
   DataverseSnapProvider,
-  MeteorBaseProvider,
   MeteorWalletProvider,
   MeteorWebProvider,
   SYSTEM_CALL,
@@ -41,7 +41,7 @@ export interface EmbedWalletProps {
   walletConfig?: WalletConfig;
 }
 
-export const appId = "9aaae63f-3445-47d5-8785-c23dd16e4965";
+export let appId = "9aaae63f-3445-47d5-8785-c23dd16e4965";
 
 let meteorConnector: Connector;
 let snapProvider: DataverseSnapProvider;
@@ -138,7 +138,7 @@ export const WalletList = ({
     setConnecting(true);
     try {
       // init provider and connector
-      let provider: MeteorBaseProvider;
+      let provider: BaseProvider;
       switch (selectedProvider) {
         case undefined:
           if (!snapProvider || snapProvider.destroyed) {
@@ -179,6 +179,12 @@ export const WalletList = ({
       }
       if (!meteorConnector) {
         meteorConnector = new Connector(provider);
+        if (location.host !== "localhost") {
+          const appInfo = await meteorConnector.getDAppInfo({
+            hostname: location.hostname,
+          });
+          appId = appInfo.id;
+        }
       } else {
         meteorConnector.setProvider(provider);
       }
@@ -243,8 +249,8 @@ export const WalletList = ({
             case WALLET.WALLETCONNECT:
               const client = await EthereumProvider.init({
                 // use your own projectId to make sure connect successfully
-                projectId: "dbe97aca1139dd7037dc85d6988ba8f5",
-                showQrModal: false,
+                projectId: "de2a6e522f354b90448adfa7c76d9c05",
+                showQrModal: true,
                 chains: [1],
                 optionalChains: [80001],
                 methods: [
