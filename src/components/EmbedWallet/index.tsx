@@ -7,8 +7,8 @@ import { MessageTypes, message } from "@meteor-web3/components";
 import {
   Chain,
   Connector,
+  BaseProvider,
   DataverseSnapProvider,
-  MeteorBaseProvider,
   MeteorWalletProvider,
   MeteorWebProvider,
   SYSTEM_CALL,
@@ -41,7 +41,7 @@ export interface EmbedWalletProps {
   walletConfig?: WalletConfig;
 }
 
-export const appId = "9aaae63f-3445-47d5-8785-c23dd16e4965";
+export let appId = "9aaae63f-3445-47d5-8785-c23dd16e4965";
 
 let meteorConnector: Connector;
 let snapProvider: DataverseSnapProvider;
@@ -138,7 +138,7 @@ export const WalletList = ({
     setConnecting(true);
     try {
       // init provider and connector
-      let provider: MeteorBaseProvider;
+      let provider: BaseProvider;
       switch (selectedProvider) {
         case undefined:
           if (!snapProvider || snapProvider.destroyed) {
@@ -179,6 +179,12 @@ export const WalletList = ({
       }
       if (!meteorConnector) {
         meteorConnector = new Connector(provider);
+        if (location.host !== "localhost") {
+          const appInfo = await meteorConnector.getDAppInfo({
+            hostname: location.hostname,
+          });
+          appId = appInfo.id;
+        }
       } else {
         meteorConnector.setProvider(provider);
       }
