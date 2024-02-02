@@ -179,7 +179,7 @@ export const WalletList = ({
       }
       if (!meteorConnector) {
         meteorConnector = new Connector(provider);
-        if (location.host !== "localhost") {
+        if (location.hostname !== "localhost") {
           const appInfo = await meteorConnector.getDAppInfo({
             hostname: location.hostname,
           });
