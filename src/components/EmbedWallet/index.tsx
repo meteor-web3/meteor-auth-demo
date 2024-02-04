@@ -167,10 +167,7 @@ export const WalletList = ({
             if (!iframe) {
               throw "Meteor Web wallet failed to load or has not been loaded yet.";
             }
-            meteorWebProvider = new MeteorWebProvider(
-              iframe.contentWindow!,
-              window.ethereum,
-            );
+            meteorWebProvider = new MeteorWebProvider(iframe.contentWindow!);
           }
           provider = meteorWebProvider;
           break;
@@ -196,6 +193,9 @@ export const WalletList = ({
         userInfo?: any;
       };
       if (selectedProvider !== "meteor-web") {
+        if (wallet === WALLET.METAMASK && !window.ethereum) {
+          throw "MetaMask is not installed or not enabled.";
+        }
         connectRes = await meteorConnector.connectWallet({
           wallet: wallet === "google" ? WALLET.PARTICLE : wallet,
           preferredAuthType: wallet === "google" ? "google" : undefined,
@@ -231,6 +231,9 @@ export const WalletList = ({
         } else {
           switch (wallet) {
             case WALLET.METAMASK:
+              if (!window.ethereum) {
+                throw "MetaMask is not installed or not enabled.";
+              }
               ethereumProvider = window.ethereum;
               break;
             // case WALLET.COINBASE:
