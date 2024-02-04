@@ -17,7 +17,7 @@
     "@ethersproject/providers": "^5.7.2",
     "@metamask/providers": "^9.0.0",
     "@meteor-web3/components": "^1.0.0",
-    "@meteor-web3/connector": "^1.0.8",
+    "@meteor-web3/connector": "^1.0.10",
     "@meteor-web3/meteor-iframe": "^0.0.7",
     "@mui/icons-material": "^5.15.6",
     "@mui/material": "^5.15.6",

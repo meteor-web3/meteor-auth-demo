@@ -1,7 +1,7 @@
 /* eslint-disable no-case-declarations */
 import React, { useEffect, useState } from "react";
 
-import "@meteor-web3/meteor-iframe";
+// import "@meteor-web3/meteor-iframe";
 // import { CoinbaseWalletSDK } from "@coinbase/wallet-sdk";
 import { MessageTypes, message } from "@meteor-web3/components";
 import {
@@ -161,13 +161,7 @@ export const WalletList = ({
           break;
         case "meteor-web":
           if (!meteorWebProvider || meteorWebProvider.destroyed) {
-            const iframe = document.getElementById(
-              "meteor-iframe",
-            ) as HTMLIFrameElement;
-            if (!iframe) {
-              throw "Meteor Web wallet failed to load or has not been loaded yet.";
-            }
-            meteorWebProvider = new MeteorWebProvider(iframe.contentWindow!);
+            meteorWebProvider = new MeteorWebProvider();
           }
           provider = meteorWebProvider;
           break;
